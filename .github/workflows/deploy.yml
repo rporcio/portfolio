@@ -23,19 +23,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
-      # Pin npm to avoid runner/npm regressions
-      - run: npm i -g npm@10.8.2
-      - run: npm --version
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
-      # Harden npm against registry/audit/fund noise
-      - run: npm config set registry https://registry.npmjs.org/
-      - run: npm config set fund false
-      - run: npm config set audit false
-
-      - run: npm install --no-progress
-      - run: npm run build
+      - run: pnpm install
+      - run: pnpm run build
 
       - uses: actions/upload-pages-artifact@v3
         with:
